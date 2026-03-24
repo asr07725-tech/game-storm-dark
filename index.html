@@ -5,22 +5,49 @@
 <title>Game Storm Dark Neon</title>
 
 <style>
+
 body{
 background:#020617;
 font-family:Arial;
 color:white;
-text-align:center;
+margin:0;
 }
 
 header{
-font-size:40px;
+background:black;
 padding:20px;
+font-size:35px;
+text-align:center;
 color:#00ffff;
 text-shadow:0 0 20px #00ffff;
 }
 
-.section{
-margin-top:40px;
+.search{
+text-align:center;
+padding:20px;
+}
+
+input{
+padding:10px;
+width:60%;
+border-radius:10px;
+border:none;
+}
+
+.menu{
+display:flex;
+gap:15px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.menu button{
+background:#ff00ff;
+border:none;
+padding:10px;
+border-radius:10px;
+color:white;
+cursor:pointer;
 }
 
 .games{
@@ -35,22 +62,17 @@ background:#0f172a;
 padding:15px;
 border-radius:20px;
 box-shadow:0 0 15px #00ffff55;
-transition:0.3s;
-}
-
-.game:hover{
-transform:scale(1.08);
-box-shadow:0 0 25px #ff00ff;
 }
 
 a{
 display:block;
 background:#ff00ff;
-padding:10px;
+padding:8px;
 border-radius:10px;
 color:white;
 text-decoration:none;
 margin-top:10px;
+text-align:center;
 }
 
 </style>
@@ -61,41 +83,76 @@ margin-top:10px;
 
 <header>⚡ Game Storm Dark Neon ⚡</header>
 
-<div class="section">
-<h2>📶 ألعاب بدون نت</h2>
+<div class="search">
+<input type="text" id="search" placeholder="ابحث عن لعبة...">
+</div>
 
-<div class="games">
+<div class="menu">
+<button onclick="filter('action')">أكشن</button>
+<button onclick="filter('girls')">بنات</button>
+<button onclick="filter('race')">سباق</button>
+<button onclick="filter('sport')">رياضة</button>
+<button onclick="filter('offline')">بدون نت</button>
+<button onclick="filter('all')">الكل</button>
+</div>
 
+<div class="games" id="games"></div>
+
+<!-- مكان الإعلانات -->
+<div style="text-align:center;margin:40px">
+اعلان هنا
+</div>
+
+<script>
+
+let list=[];
+
+for(let i=1;i<=300;i++){
+
+let cat=['action','girls','race','sport','offline'][Math.floor(Math.random()*5)];
+
+list.push({
+name:"Game "+i,
+cat:cat,
+link:"https://play.google.com"
+});
+
+}
+
+function show(arr){
+
+let html="";
+
+arr.forEach(g=>{
+html+=`
 <div class="game">
-<h3>Subway Surfers</h3>
-<a href="https://play.google.com/store/apps/details?id=com.kiloo.subwaysurf">تحميل</a>
+<h3>${g.name}</h3>
+<a href="${g.link}" target="_blank">تحميل APK</a>
 </div>
+`;
+});
 
-<div class="game">
-<h3>Zombie Catchers</h3>
-<a href="https://play.google.com/store/apps/details?id=fi.twomenandadog.zombiecatchers">تحميل</a>
-</div>
+document.getElementById("games").innerHTML=html;
 
-</div>
-</div>
+}
 
-<div class="section">
-<h2>👗 ألعاب بنات</h2>
+function filter(c){
 
-<div class="games">
+if(c=="all") show(list);
+else show(list.filter(g=>g.cat==c));
 
-<div class="game">
-<h3>Princess Dress Up</h3>
-<a href="https://play.google.com">تحميل</a>
-</div>
+}
 
-<div class="game">
-<h3>Makeup Salon</h3>
-<a href="https://play.google.com">تحميل</a>
-</div>
+document.getElementById("search").onkeyup=function(){
 
-</div>
-</div>
+let v=this.value.toLowerCase();
+show(list.filter(g=>g.name.toLowerCase().includes(v)));
+
+}
+
+show(list);
+
+</script>
 
 </body>
 </html>
